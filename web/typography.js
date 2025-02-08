@@ -160,7 +160,7 @@ module.exports = ({ theme }) => ({
 
       // Quotes
       blockquote: {
-        display: none; // 隐藏“引用”
+        display: 'none', // 隐藏“引用”
         fontWeight: '500',
         fontStyle: 'italic',
         color: 'var(--tw-prose-quotes)',
