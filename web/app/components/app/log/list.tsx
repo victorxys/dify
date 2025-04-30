@@ -687,7 +687,7 @@ const ConversationList: FC<IConversationList> = ({ logs, appDetail, onRefresh })
         </thead>
         <tbody className="system-sm-regular text-text-secondary">
           {logs.data.map((log: any) => {
-            const endUser = log.from_end_user_session_id || log.from_account_name
+            const endUser = log.from_end_user_account_name || log.from_account_name
             const leftValue = get(log, isChatMode ? 'name' : 'message.inputs.query') || (!isChatMode ? (get(log, 'message.query') || get(log, 'message.inputs.default_input')) : '') || ''
             const rightValue = get(log, isChatMode ? 'message_count' : 'message.answer')
             return <tr
@@ -707,7 +707,8 @@ const ConversationList: FC<IConversationList> = ({ logs, appDetail, onRefresh })
               <td className='w-[160px] p-3 pr-2' style={{ maxWidth: isChatMode ? 300 : 200 }}>
                 {renderTdValue(leftValue || t('appLog.table.empty.noChat'), !leftValue, isChatMode && log.annotated)}
               </td>
-              <td className='p-3 pr-2'>{renderTdValue(endUser || defaultValue, !endUser)}</td>
+              {/* <td className='p-3 pr-2'>{renderTdValue(endUser || defaultValue, !endUser)}</td> */}
+              <td className='p-3 pr-2'>{renderTdValue(endUser)}</td>
               {isChatflow && <td className='w-[160px] p-3 pr-2' style={{ maxWidth: isChatMode ? 300 : 200 }}>
                 {statusTdRender(log.status_count)}
               </td>}

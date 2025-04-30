@@ -7,6 +7,7 @@ from flask_restful.inputs import int_range  # type: ignore
 from sqlalchemy import func, or_
 from sqlalchemy.orm import joinedload
 from werkzeug.exceptions import Forbidden, NotFound
+from sqlalchemy.dialects import postgresql
 
 from controllers.console import api
 from controllers.console.app.wraps import get_app_model
@@ -21,7 +22,7 @@ from fields.conversation_fields import (
 )
 from libs.helper import DatetimeString
 from libs.login import login_required
-from models import Conversation, EndUser, Message, MessageAnnotation
+from models import Conversation, EndUser, Message, MessageAnnotation, Account
 from models.model import AppMode
 
 
@@ -170,7 +171,12 @@ class ChatConversationApi(Resource):
             .subquery()
         )
 
-        query = db.select(Conversation).where(Conversation.app_id == app_model.id)
+        query = db.select(
+            Conversation,
+            Account.name.label("from_end_user_account_name")
+        ).where(Conversation.app_id == app_model.id) \
+         .outerjoin(Account, Conversation.from_end_user_id == Account.id)
+        compiled = query.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True})
 
         if args["keyword"]:
             keyword_filter = "%{}%".format(args["keyword"])
@@ -189,8 +195,10 @@ class ChatConversationApi(Resource):
                         subquery.c.from_end_user_session_id.ilike(keyword_filter),
                     ),
                 )
-                .group_by(Conversation.id)
+                .group_by(Conversation.id, Account.id)  # 添加 Account.id
             )
+        else:
+            query = query.group_by(Conversation.id, Account.id)  # 添加 group_by
 
         account = current_user
         timezone = pytz.timezone(account.timezone)
