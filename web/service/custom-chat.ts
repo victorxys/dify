@@ -16,8 +16,8 @@ const getEndUserId = () => {
       const user = JSON.parse(userCookie)
       return user.id || user.phone || 'custom-chat-user'
     }
-  } catch (e) {
-    console.error('Failed to parse user cookie', e)
+  } catch {
+    // console.error('Failed to parse user cookie', e)
   }
   return 'custom-chat-user'
 }
@@ -27,7 +27,7 @@ export const sendChatMessage = async (
   conversationId: string | null = null, 
   onMessage: (chunk: string) => void,
   onConversationId?: (id: string) => void,
-  files: any[] = [],
+  files: Record<string, any>[] = [],
   onSuggestions?: (suggestions: string[]) => void,
   onMessageEnd?: (messageId: string) => void
 ) => {
@@ -76,7 +76,6 @@ export const sendChatMessage = async (
       if (line.startsWith('data:')) {
         try {
           const data = JSON.parse(line.slice(5))
-          console.log('DEBUG: Received event:', data.event, data.conversation_id)
           
           if (data.event === 'message' || data.event === 'agent_message') {
             onMessage(data.answer)
@@ -87,7 +86,6 @@ export const sendChatMessage = async (
           }
           
           if (data.event === 'message_end' || data.event === 'workflow_finished') {
-            console.log('DEBUG: End event reached', data.event)
             if (data.conversation_id && onConversationId) {
               onConversationId(data.conversation_id)
             }
@@ -98,7 +96,7 @@ export const sendChatMessage = async (
               onSuggestions(data.metadata.suggested_questions)
             }
           }
-        } catch (e) {
+        } catch {
           // Incomplete JSON or other error, buffer will handle it
         }
       }
@@ -115,7 +113,7 @@ export const fetchConversations = async (limit: number = 20) => {
       user: getEndUserId(),
       limit,
     }
-  }).json<any>()
+  }).json<Record<string, any>>()
 }
 
 export const fetchMessages = async (conversationId: string) => {
@@ -127,7 +125,7 @@ export const fetchMessages = async (conversationId: string) => {
       user: getEndUserId(),
       conversation_id: conversationId,
     }
-  }).json<any>()
+  }).json<Record<string, any>>()
 }
 
 export const fetchAppParameters = async () => {
@@ -138,7 +136,7 @@ export const fetchAppParameters = async () => {
     searchParams: {
       user: getEndUserId(),
     }
-  }).json<any>()
+  }).json<Record<string, any>>()
 }
 
 export const uploadFile = async (file: File) => {
@@ -151,7 +149,7 @@ export const uploadFile = async (file: File) => {
       'Authorization': `Bearer ${getApiKey()}`,
     },
     body: formData,
-  }).json<any>()
+  }).json<Record<string, any>>()
 }
 
 export const getSuggestedQuestions = async (messageId: string) => {
@@ -162,5 +160,5 @@ export const getSuggestedQuestions = async (messageId: string) => {
     searchParams: {
       user: getEndUserId(),
     }
-  }).json<any>()
+  }).json<Record<string, any>>()
 }

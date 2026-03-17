@@ -33,7 +33,7 @@ export default function LoginPage() {
       } else {
         notify({ type: 'error', message: '登录验证失败，默认密码是身份证号后6位' })
       }
-    } catch (error: any) {
+    } catch {
       notify({ type: 'error', message: '登录失败，默认密码是身份证号后6位' })
     } finally {
       setLoading(false)

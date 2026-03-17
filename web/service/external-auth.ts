@@ -14,7 +14,7 @@ export const login = async (phone: string, password: string) => {
         phone_number: phone,
         password: password,
       }
-    }).json<any>()
+    }).json<Record<string, any>>()
 
     return response
   } catch (error: any) {
@@ -23,7 +23,7 @@ export const login = async (phone: string, password: string) => {
       try {
         const errorData = await error.response.json()
         message = errorData.error || errorData.message || message
-      } catch (e) {
+      } catch {
         // ignore json parse error
       }
     } else {
