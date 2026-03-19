@@ -826,6 +826,9 @@ services:
 
   # Frontend web application.
   web:
+    build:
+      context: ../web
+      dockerfile: Dockerfile
     image: langgenius/dify-web:1.13.0
     restart: always
     environment:
