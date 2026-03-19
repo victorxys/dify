@@ -29,7 +29,7 @@ export default function LoginPage() {
         Cookies.set('custom_chat_token', res.access_token, { expires: 7 })
         Cookies.set('custom_chat_user', JSON.stringify(res.user), { expires: 7 })
         notify({ type: 'success', message: '登录成功' })
-        router.push('/custom-chat/chat')
+        router.push('/custom-chat/chat/gPpLXmhHhOLqyNYV')
       } else {
         notify({ type: 'error', message: '登录验证失败，默认密码是身份证号后6位' })
       }
