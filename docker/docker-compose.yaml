@@ -59,7 +59,7 @@ x-shared-env: &shared-api-worker-env
   DB_TYPE: ${DB_TYPE:-postgresql}
   DB_USERNAME: ${DB_USERNAME:-postgres}
   DB_PASSWORD: ${DB_PASSWORD:-difyai123456}
-  DB_HOST: ${DB_HOST:-db_postgres}
+  DB_HOST: ${DB_HOST:-db}
   DB_PORT: ${DB_PORT:-5432}
   DB_DATABASE: ${DB_DATABASE:-dify}
   SQLALCHEMY_POOL_SIZE: ${SQLALCHEMY_POOL_SIZE:-30}
@@ -733,7 +733,7 @@ services:
     depends_on:
       init_permissions:
         condition: service_completed_successfully
-      db_postgres:
+      db:
         condition: service_healthy
         required: false
       db_mysql:
@@ -772,7 +772,7 @@ services:
     depends_on:
       init_permissions:
         condition: service_completed_successfully
-      db_postgres:
+      db:
         condition: service_healthy
         required: false
       db_mysql:
@@ -806,7 +806,7 @@ services:
     depends_on:
       init_permissions:
         condition: service_completed_successfully
-      db_postgres:
+      db:
         condition: service_healthy
         required: false
       db_mysql:
@@ -857,7 +857,7 @@ services:
       ENABLE_WEBSITE_WATERCRAWL: ${ENABLE_WEBSITE_WATERCRAWL:-true}
 
   # The PostgreSQL database.
-  db_postgres:
+  db:
     image: postgres:15-alpine
     profiles:
       - postgresql
@@ -883,7 +883,7 @@ services:
           "CMD",
           "pg_isready",
           "-h",
-          "db_postgres",
+          "db",
           "-U",
           "${DB_USERNAME:-postgres}",
           "-d",
@@ -1023,7 +1023,7 @@ services:
     volumes:
       - ./volumes/plugin_daemon:/app/storage
     depends_on:
-      db_postgres:
+      db:
         condition: service_healthy
         required: false
       db_mysql:
