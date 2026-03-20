@@ -829,7 +829,7 @@ services:
     build:
       context: ../web
       dockerfile: Dockerfile
-    image: langgenius/dify-web:1.13.0
+    image: langgenius/dify-web:1.13.0-custom
     restart: always
     environment:
       CONSOLE_API_URL: ${CONSOLE_API_URL:-}
