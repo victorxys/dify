@@ -71,15 +71,19 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         {
           source: '/console/api/:path*',
-          destination: 'http://127.0.0.1:8090/console/api/:path*',
+          destination: 'http://api:5001/console/api/:path*',
         },
         {
           source: '/v1/:path*',
-          destination: 'http://127.0.0.1:8090/v1/:path*',
+          destination: 'http://api:5001/v1/:path*',
         },
         {
           source: '/files/:path*',
-          destination: 'http://127.0.0.1:8090/files/:path*',
+          destination: 'http://api:5001/files/:path*',
+        },
+        {
+          source: '/api/auth/:path*',
+          destination: 'http://api:5001/api/auth/:path*',
         },
       ],
     }

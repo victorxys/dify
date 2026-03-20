@@ -1,7 +1,7 @@
 import ky from 'ky'
 
 const API_KEY = 'api_key_123'
-const BASE_URL = 'http://127.0.0.1:5001/api/auth'
+const BASE_URL = '/api/auth'
 
 export const login = async (phone: string, password: string) => {
   try {
