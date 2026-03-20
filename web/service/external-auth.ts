@@ -1,7 +1,7 @@
 import ky from 'ky'
 
 const API_KEY = 'api_key_123'
-const BASE_URL = '/api/auth'
+const BASE_URL = '/hr-api/auth'
 
 export const login = async (phone: string, password: string) => {
   try {
