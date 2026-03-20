@@ -2,7 +2,7 @@ import ky from 'ky'
 import Cookies from 'js-cookie'
 
 const getApiPrefix = () => {
-  return process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX || 'http://localhost:8090/v1'
+  return process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX || '/v1'
 }
 
 const getApiKey = () => {

@@ -85,6 +85,10 @@ const nextConfig: NextConfig = {
           source: '/hr-api/auth/:path*',
           destination: 'https://hr.mengyimengsao.com/api/auth/:path*',
         },
+        {
+          source: '/v1/:path*',
+          destination: 'http://api:5001/v1/:path*',
+        },
       ],
     }
   },
