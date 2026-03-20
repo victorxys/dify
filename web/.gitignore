@@ -66,3 +66,4 @@ public/fallback-*.js
 .vscode/mcp.json
 
 .eslintcache
+*.sql
