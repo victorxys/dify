@@ -2,7 +2,7 @@ import ky from 'ky'
 import Cookies from 'js-cookie'
 
 const getApiPrefix = () => {
-  return '/api/custom-chat-proxy'
+  return '/custom-chat-api-proxy'
 }
 
 const getApiKey = () => {
